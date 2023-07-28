@@ -1,0 +1,58 @@
+apply plugin: "maven-publish"
+apply plugin: "signing"
+
+static def decodeBase64Key(encodedString) {
+    if (encodedString != null) {
+        byte[] decoded = encodedString.decodeBase64()
+        String decode = new String(decoded)
+        return decode
+    } else {
+        return null
+    }
+}
+
+project.afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId airwallexGroupId
+                artifactId airwallexArtifactId
+                version airwallexSdkVersion
+                artifact bundleReleaseAar
+
+                pom {
+                    name = airwallexName
+                    description = airwallexDescription
+                    url = airwallexUrl
+                    licenses {
+                        license {
+                        }
+                    }
+                    organization {
+                        name = airwallexOrganizationName
+                        url = airwallexOrganizationUrl
+                    }
+                    developers {
+                        developer {
+                            organization = airwallexOrganizationName
+                            organizationUrl = airwallexOrganizationUrl
+                        }
+                    }
+                    scm {
+                        connection = airwallexScmConnection
+                        developerConnection = airwallexScmConnection
+                        url = airwallexScmUrl
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        useInMemoryPgpKeys(
+                decodeBase64Key(System.getenv('SIGNING_KEY_BASE64')),
+                System.getenv('SIGNING_PASSWORD')
+        )
+        sign publishing.publications
+    }
+}

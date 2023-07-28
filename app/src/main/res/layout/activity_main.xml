@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_xlarge">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/main_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/eventNameInputLayout"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginBottom="@dimen/padding_xlarge"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/eventNameInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/event_name_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintBottom_toTopOf="@id/screenNameInputLayout"
+        android:layout_marginBottom="@dimen/padding_medium">
+        
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eventNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:digits="@string/digit_filter"
+            android:inputType="textFilter"
+            android:text="@string/event_name_default"
+            />
+        
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/screenNameInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/screen_name_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eventNameInputLayout"
+        app:layout_constraintBottom_toTopOf="@id/button"
+        android:layout_marginBottom="@dimen/padding_medium">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/screenNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:digits="@string/digit_filter"
+            android:inputType="textFilter"
+            android:text="@string/screen_name_default"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/screenNameInputLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/send_event_title"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

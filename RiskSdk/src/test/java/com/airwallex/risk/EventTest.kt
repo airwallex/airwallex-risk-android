@@ -2,7 +2,11 @@ package com.airwallex.risk
 
 import com.airwallex.risk.helpers.FakeDataCollector
 import com.airwallex.risk.helpers.FakeRiskContext
+import com.airwallex.risk.helpers.Fixtures
 import io.mockk.MockKAnnotations
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.encodeToJsonElement
 import org.junit.Before
 import org.junit.Test
 import java.time.Instant
@@ -37,5 +41,14 @@ class EventTest {
         assertEquals(event.event.type, eventType)
         assertEquals(event.event.screen.path, path)
         assertEquals(event.app.name, dataCollector.appName)
+    }
+
+    @Test
+    fun `test serialization`() {
+        val event = Fixtures.createEvent("login")
+        val encoded = Json.encodeToJsonElement(event)
+
+        val decoded = Json.decodeFromJsonElement<Event>(encoded)
+        assertEquals(event, decoded)
     }
 }

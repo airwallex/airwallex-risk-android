@@ -1,7 +1,7 @@
 package com.airwallex.risk
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.Instant
 import java.util.UUID
 
 @Serializable
@@ -11,7 +11,6 @@ internal data class Event(
     val accountId: String?,
     val userId: String?,
     @Serializable(with = UUIDSerializer::class)
-    @SerialName("deviceId")
     val deviceId: UUID,
     @Serializable(with = UUIDSerializer::class)
     val sessionId: UUID,
@@ -19,4 +18,26 @@ internal data class Event(
     val app: App,
     val device: Device,
     val event: EventDetails
-)
+) {
+    constructor(
+        riskContext: IRiskContext,
+        dataCollector: IDataCollector,
+        eventType: String,
+        path: String?,
+        createdAtUtc: Instant
+    ) : this(
+        eventId = UUID.randomUUID(),
+        accountId = riskContext.accountId,
+        userId = riskContext.userId,
+        deviceId = riskContext.deviceId,
+        sessionId = riskContext.sessionId,
+        tenant = riskContext.tenant,
+        app = App(dataCollector = dataCollector),
+        device = Device(dataCollector = dataCollector),
+        event = EventDetails(
+            type = eventType,
+            screen = Screen(path = path),
+            createdAtUtc = createdAtUtc.toEpochMilli()
+        )
+    )
+}

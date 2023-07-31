@@ -9,11 +9,26 @@ import android.telephony.TelephonyManager
 import java.util.Locale
 import java.util.TimeZone
 
+internal interface IDataCollector {
+    val appName: String
+    val appVersion: String
+    val appLanguage: String
+    val deviceLanguage: String
+    val carrierIso: String
+    val timezone: String
+    val deviceOsName: String
+    val deviceOsVersion: String
+    val deviceModel: String
+    val deviceBrand: String
+    val sdkVersion: String
+    val userAgent: String
+}
+
 internal class DataCollector(
     applicationContext: Context,
     private val systemLocale: Locale = Resources.getSystem().configuration.locales[0],
     private val appLocale: Locale = Locale.getDefault()
-) {
+) : IDataCollector {
     // region Private
 
     private val packageContext: PackageInfo = if (BuildHelper.isVersionAtLeastTiramisu()) {
@@ -35,36 +50,36 @@ internal class DataCollector(
 
     // region Exposed data
 
-    val appName: String = if (applicationContext.applicationInfo.labelRes != 0) {
+    override val appName: String = if (applicationContext.applicationInfo.labelRes != 0) {
         applicationContext.getString(applicationContext.applicationInfo.labelRes)
     } else {
         applicationContext.applicationInfo.nonLocalizedLabel.toString()
     }
 
-    val appVersion: String = packageContext.versionName?.toString() ?: ""
+    override val appVersion: String = packageContext.versionName?.toString() ?: ""
 
-    val appLanguage: String
+    override val appLanguage: String
         get() = appLocale.language
 
-    val deviceLanguage: String
+    override val deviceLanguage: String
         get() = systemLocale.language
 
-    val carrierIso: String
+    override val carrierIso: String
         get() = telephonyManager.networkCountryIso ?: ""
 
-    val timezone: String
+    override val timezone: String
         get() = TimeZone.getDefault().id
 
-    val deviceOsName = "Android"
+    override val deviceOsName = "Android"
 
-    val deviceOsVersion = BuildHelper.osVersion
+    override val deviceOsVersion = BuildHelper.osVersion
 
-    val deviceModel: String = BuildHelper.model
-    val deviceBrand: String = BuildHelper.brand
+    override val deviceModel: String = BuildHelper.model
+    override val deviceBrand: String = BuildHelper.brand
 
-    val sdkVersion: String = BuildConfigHelper.sdkVersion
+    override val sdkVersion: String = BuildConfigHelper.sdkVersion
 
-    val userAgent: String = "${appName}/${appVersion} (${packageName})"
+    override val userAgent: String = "${appName}/${appVersion} (${packageName})"
 
     // endregion
 }

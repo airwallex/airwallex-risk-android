@@ -59,7 +59,10 @@ buildscript {
             '**/RuntimeTypeAdapterFactory.*',
             '**/*BuilderProvider.*',
             '**/BuildHelper.*',
-            '**/BuildConfigHelper.*'
+            '**/BuildConfigHelper.*',
+            '**/ApiService.*',
+            '**/DataCollector.*',
+            '**/AirwallexRisk.*'
         ]
     }
 }

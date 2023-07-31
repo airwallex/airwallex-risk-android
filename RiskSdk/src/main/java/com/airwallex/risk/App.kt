@@ -14,7 +14,7 @@ internal data class App(
         val version: String
     )
 
-    constructor(dataCollector: DataCollector) : this(
+    constructor(dataCollector: IDataCollector) : this(
         name = dataCollector.appName,
         version = dataCollector.appVersion,
         language = dataCollector.appLanguage,

@@ -20,7 +20,7 @@ The Airwallex Risk SDK is required for Airwallex Scale customer apps.
 
 ## Requirements
 
-The Airwallex Risk Android SDK requires Android Studio Flamingo or later and is compatible with apps targeting Android 8 or above.
+The Airwallex Risk Android SDK requires Android Studio Flamingo or later with Java 17 and is compatible with apps targeting Android 8 or above.
 
 ### Installation
 
@@ -105,7 +105,7 @@ import com.airwallex.risk.AirwallexRisk
 
 val header = AirwallexRisk.header
 
-// Add a header using `header.key` and `header.value` to airwallex.com network requests
+// Add a header using `header.field` and `header.value` to airwallex.com network requests
 ```
 
 The header consists of

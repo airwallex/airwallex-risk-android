@@ -1,40 +1,58 @@
 package com.airwallex.risk
 
-import android.content.Context
 import java.time.Instant
 import java.util.UUID
 
-internal class RiskContext(
-    val applicationContext: Context,
-    val environment: Environment,
-    val tenant: Tenant,
-    private val storageManager: StorageManager
-) {
+internal interface IRiskContext {
     var userId: String?
+    var accountId: String?
+    var hasSentInstallationEvent: Boolean
+    val userAgent: String
+    val sessionId: UUID
+    val deviceId: UUID
+    val environment: Environment
+    val tenant: Tenant
+
+    fun description(): String
+
+    fun updateAccountId(accountId: String?)
+
+    fun updateUserId(userId: String?)
+
+    fun createEvent(
+        eventType: String,
+        path: String? = null,
+        createdAtUtc: Instant = Instant.now()
+    ): Event
+}
+
+internal class RiskContext(
+    override val environment: Environment,
+    override val tenant: Tenant,
+    private val storageManager: IStorageManager,
+    private val dataCollector: IDataCollector
+) : IRiskContext {
+    override var userId: String?
         get() = storageManager.userId
         set(value) { storageManager.userId = value }
 
-    var accountId: String?
+    override var accountId: String?
         get() = storageManager.accountId
         set(value) { storageManager.accountId = value }
 
-    var hasSentInstallationEvent: Boolean
+    override var hasSentInstallationEvent: Boolean
         get() = storageManager.hasSentInstallationEvent
         set(value) { storageManager.hasSentInstallationEvent = value }
 
-    val userAgent: String
+    override val userAgent: String
         get() = dataCollector.userAgent
 
-    val sessionId: UUID = UUID.randomUUID()
+    override val sessionId: UUID = UUID.randomUUID()
 
-    val deviceId: UUID
+    override val deviceId: UUID
         get() = storageManager.deviceId
 
-    private val dataCollector: DataCollector = DataCollector(
-        applicationContext = applicationContext
-    )
-
-    fun description(): String = """
+    override fun description(): String = """
             Airwallex Risk started with context:
             App name: ${dataCollector.appName}
             Environment: ${environment.name}
@@ -43,32 +61,24 @@ internal class RiskContext(
             Session ID: $sessionId
         """.trimIndent()
 
-    fun updateAccountId(accountId: String?) {
+    override fun updateAccountId(accountId: String?) {
         this.accountId = accountId
     }
 
-    fun updateUserId(userId: String?) {
+    override fun updateUserId(userId: String?) {
         this.userId = userId
     }
 
-    fun createEvent(
+    override fun createEvent(
         eventType: String,
-        path: String? = null,
-        createdAtUtc: Instant = Instant.now()
+        path: String?,
+        createdAtUtc: Instant
     ): Event =
         Event(
-            eventId = UUID.randomUUID(),
-            accountId = accountId,
-            userId = userId,
-            deviceId = deviceId,
-            sessionId = sessionId,
-            tenant = tenant,
-            app = App(dataCollector = dataCollector),
-            device = Device(dataCollector = dataCollector),
-            event = EventDetails(
-                type = eventType,
-                screen = Screen(path = path),
-                createdAtUtc = createdAtUtc.toEpochMilli()
-            )
+            riskContext = this,
+            dataCollector = dataCollector,
+            eventType = eventType,
+            path = path,
+            createdAtUtc = createdAtUtc
         )
 }

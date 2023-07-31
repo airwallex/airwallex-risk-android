@@ -10,8 +10,10 @@ import org.junit.Before
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class StorageManagerTest {
 
@@ -24,6 +26,7 @@ class StorageManagerTest {
         MockKAnnotations.init(this)
 
         every { editor.putString(any(), any()) } returns editor
+        every { editor.putBoolean(any(), any()) } returns editor
         every { editor.apply() } returns Unit
 
         every { sharedPreferences.edit() } returns editor
@@ -62,6 +65,7 @@ class StorageManagerTest {
         assertNull(storageManager.userId)
 
         every { sharedPreferences.getString(any(), null) } returns userId
+        storageManager.userId = userId
         assertEquals(storageManager.userId, userId)
     }
 
@@ -76,6 +80,20 @@ class StorageManagerTest {
         assertNull(storageManager.accountId)
 
         every { sharedPreferences.getString(any(), null) } returns accountId
+        storageManager.accountId = accountId
         assertEquals(storageManager.accountId, accountId)
+    }
+
+    @Test
+    fun `test installation event`() {
+        every { sharedPreferences.getBoolean(any(), false) } returns false
+
+        val storageManager = StorageManager(sharedPreferences = sharedPreferences)
+
+        assertFalse(storageManager.hasSentInstallationEvent)
+
+        every { sharedPreferences.getBoolean(any(), false) } returns true
+        storageManager.hasSentInstallationEvent = true
+        assertTrue(storageManager.hasSentInstallationEvent)
     }
 }

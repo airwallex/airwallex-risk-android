@@ -1,11 +1,15 @@
 package com.airwallex.risk
 
+internal interface IAutomaticEventProvider {
+    fun sendOpenEvent()
+}
+
 internal class AutomaticEventProvider(
     private val repository: EventRepository,
-    val riskContext: RiskContext
-) {
+    val riskContext: IRiskContext
+) : IAutomaticEventProvider {
 
-    fun sendOpenEvent() {
+    override fun sendOpenEvent() {
         val eventName = if (riskContext.hasSentInstallationEvent) {
             Constants.openEventName
         } else {

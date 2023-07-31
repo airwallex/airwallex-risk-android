@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
 internal class EventManager(
     private val repository: EventRepository,
     private val apiService: ApiService,
-    private val automaticEventProvider: AutomaticEventProvider,
+    private val automaticEventProvider: IAutomaticEventProvider,
+    private val lifecycleOwner: LifecycleOwner = ProcessLifecycleOwner.get(),
+    private val repeatCount: Int = Int.MAX_VALUE,
     backgroundDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
@@ -22,7 +24,7 @@ internal class EventManager(
     private var repeatingJob: Job? = null
 
     fun start() {
-        ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
+        lifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onStart(owner: LifecycleOwner) {
                 super.onStart(owner)
                 startRepeatingJob()
@@ -34,8 +36,8 @@ internal class EventManager(
             }
         })
 
-        startRepeatingJob()
         automaticEventProvider.sendOpenEvent()
+        startRepeatingJob()
     }
 
     fun queue(event: Event) {
@@ -48,11 +50,11 @@ internal class EventManager(
         }
 
         repeatingJob = repeatingScope.launch {
-            repeat(Int.MAX_VALUE) {
+            repeat(repeatCount) {
                 if (isActive) {
                     postEvents()
-                    // delay for 10 seconds
-                    delay(10_000L)
+                    // delay for 20 seconds
+                    delay(20_000L)
                 }
             }
         }
@@ -70,6 +72,7 @@ internal class EventManager(
             try {
                 apiService.postEvents(events = events)
             } catch (e: Exception) {
+                // failed to send events, just add them back to the queue
                 repository.addAll(events)
             }
         }

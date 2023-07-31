@@ -3,19 +3,12 @@ package com.airwallex.risk
 import android.content.Context
 import android.util.Log
 
-class AirwallexRisk private constructor(
-    private val riskContext: RiskContext,
-    private val eventManager: EventManager
-) {
-    val header: Header = Header(
-        field = Constants.headerKey,
-        value = riskContext.deviceId.toString()
-    )
+class AirwallexRisk private constructor() {
 
     companion object {
         private const val sharedPreferencesFilename: String = Constants.sharedPreferencesFilename
 
-        private var shared: AirwallexRisk? = null
+        internal var shared: AirwallexRiskInternal? = null
 
         /**
          * Airwallex risk request header.
@@ -54,15 +47,17 @@ class AirwallexRisk private constructor(
             val storageManager = StorageManager(sharedPreferences = sharedPreferences)
 
             val riskContext = RiskContext(
-                applicationContext = applicationContext,
                 environment = configuration.environment,
                 tenant = configuration.tenant,
-                storageManager = storageManager
+                storageManager = storageManager,
+                dataCollector = DataCollector(
+                    applicationContext = applicationContext
+                )
             )
 
             val eventRepository = EventRepository()
 
-            val shared = AirwallexRisk(
+            val shared = AirwallexRiskInternal(
                 riskContext = riskContext,
                 eventManager = EventManager(
                     repository = eventRepository,
@@ -91,7 +86,7 @@ class AirwallexRisk private constructor(
                 Log.d(Constants.logTag, Constants.logSdkNotStartedError)
                 return
             }
-            shared.riskContext.updateUserId(userId = userId)
+            shared.setUserId(userId = userId)
         }
 
         /**
@@ -105,7 +100,7 @@ class AirwallexRisk private constructor(
                 Log.d(Constants.logTag, Constants.logSdkNotStartedError)
                 return
             }
-            shared.riskContext.updateAccountId(accountId = accountId)
+            shared.setAccountId(accountId = accountId)
         }
 
         /**
@@ -122,28 +117,5 @@ class AirwallexRisk private constructor(
             }
             shared.log(eventType = event, screen = screen)
         }
-    }
-
-    fun start() {
-        Log.d(Constants.logTag, riskContext.description())
-
-        eventManager.start()
-    }
-
-    fun setUserId(userId: String?) {
-        riskContext.updateUserId(userId = userId)
-    }
-
-    fun setAccountId(accountId: String?) {
-        riskContext.updateAccountId(accountId = accountId)
-    }
-
-    fun log(eventType: String, screen: String?) {
-        val event = riskContext.createEvent(
-            eventType = eventType,
-            path = screen
-        )
-
-        eventManager.queue(event)
     }
 }

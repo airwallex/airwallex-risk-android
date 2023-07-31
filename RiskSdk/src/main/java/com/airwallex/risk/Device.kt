@@ -24,7 +24,7 @@ internal data class Device(
         val brand: String
     )
 
-    constructor(dataCollector: DataCollector) : this(
+    constructor(dataCollector: IDataCollector) : this(
         os = Os(
             name = dataCollector.deviceOsName,
             version = dataCollector.deviceOsVersion,

@@ -24,7 +24,7 @@ internal interface IApiService {
 }
 
 internal class ApiService(
-    private val riskContext: RiskContext,
+    private val riskContext: IRiskContext,
     private val client: HttpClient = HttpClient(CIO) {
         expectSuccess = true
 

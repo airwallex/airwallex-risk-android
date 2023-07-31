@@ -49,8 +49,8 @@ class EventManagerTest {
 
         eventManager.start()
 
-        val event = Fixtures.createEvent(eventType = "login")
-        repository.add(event)
+        val event = Fixtures.createEvent(eventType = "login", path = "path")
+        eventManager.queue(event)
 
         lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_START)
@@ -80,7 +80,7 @@ class EventManagerTest {
         eventManager.start()
 
         val event = Fixtures.createEvent(eventType = "login")
-        repository.add(event)
+        eventManager.queue(event)
 
         lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_START)

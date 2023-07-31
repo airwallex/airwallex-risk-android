@@ -86,7 +86,7 @@ allprojects {
     }
 }
 
-airwallexSdkVersion = '0.1'
+airwallexSdkVersion = '1.0.0'
 
 apply from: "${rootDir}/sonar.gradle"
 

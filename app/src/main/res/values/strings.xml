@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Sample</string>
+    <string name="main_title">Sample Integration</string>
+    <string name="event_name_title">Event Name</string>
+    <string name="screen_name_title">Screen Name</string>
+    <string name="send_event_title">Send Event</string>
+
+    <string name="digit_filter" translatable="false">abcdefghijklmnopqrstuvwxyz1234567890_</string>
+    <string name="event_name_default">login</string>
+    <string name="screen_name_default">home_screen</string>
+</resources>

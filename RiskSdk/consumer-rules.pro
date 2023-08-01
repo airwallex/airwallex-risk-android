@@ -6,3 +6,7 @@
     public static <1> INSTANCE;
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+-keepclassmembers class kotlinx.** {
+    volatile <fields>;
+}

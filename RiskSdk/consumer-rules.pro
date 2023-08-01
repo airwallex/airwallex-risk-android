@@ -10,3 +10,8 @@
 -keepclassmembers class kotlinx.** {
     volatile <fields>;
 }
+
+-keep class com.airwallex.risk.* {
+    public <methods>;
+    public <fields>;
+}

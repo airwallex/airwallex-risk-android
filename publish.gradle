@@ -17,7 +17,7 @@ project.afterEvaluate {
             release(MavenPublication) {
                 groupId airwallexGroupId
                 artifactId airwallexArtifactId
-                version airwallexSdkVersion
+                version rootProject.airwallexSdkVersion
                 artifact bundleReleaseAar
 
                 pom {

@@ -84,7 +84,7 @@ class RiskContextTest {
             """
             Airwallex Risk started with context:
             App name: App Name
-            Environment: DEV
+            Environment: STAGING
             Tenant: Scale
             Device ID: ${storageManager.deviceId}
             Session ID: ${riskContext.sessionId}
@@ -120,7 +120,7 @@ class RiskContextTest {
         storageManager: IStorageManager = FakeStorageManager(),
         dataCollector: IDataCollector = FakeDataCollector()
     ): RiskContext = RiskContext(
-        environment = Environment.DEV,
+        environment = Environment.STAGING,
         tenant = Tenant.SCALE,
         storageManager = storageManager,
         dataCollector = dataCollector

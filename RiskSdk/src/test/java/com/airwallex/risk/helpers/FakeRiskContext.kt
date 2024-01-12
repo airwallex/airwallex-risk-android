@@ -15,7 +15,7 @@ internal class FakeRiskContext : IRiskContext {
     override val userAgent: String = "user agent"
     override val sessionId: UUID = UUID.randomUUID()
     override val deviceId: UUID = UUID.randomUUID()
-    override val environment: Environment = Environment.DEV
+    override val environment: Environment = Environment.STAGING
     override val tenant: Tenant = Tenant.SCALE
 
     override fun description(): String = "description"

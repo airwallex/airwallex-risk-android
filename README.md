@@ -96,7 +96,7 @@ AirwallexRisk.log(
 
 When your app sends a request to Airwallex, you must add the provided header into your request before sending. This will be slightly different depending on your networking library, so check the documentation describing how to add headers for the library you're using.
 
-Some networking libraries you may be using 
+Some networking libraries you may be using
 - [Ktor](https://ktor.io/docs/request.html#parameters)
 - [OkHttp](https://square.github.io/okhttp/4.x/okhttp/okhttp3/-request/-builder/add-header)
 

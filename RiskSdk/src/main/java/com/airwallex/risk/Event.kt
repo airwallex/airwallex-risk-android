@@ -24,7 +24,7 @@ internal data class Event(
         dataCollector: IDataCollector,
         eventType: String,
         path: String?,
-        createdAtUtc: Instant
+        createdAtUtc: Long
     ) : this(
         eventId = UUID.randomUUID(),
         accountId = riskContext.accountId,
@@ -37,7 +37,7 @@ internal data class Event(
         event = EventDetails(
             type = eventType,
             screen = Screen(path = path),
-            createdAtUtc = createdAtUtc.toEpochMilli()
+            createdAtUtc = createdAtUtc
         )
     )
 }

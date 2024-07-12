@@ -28,7 +28,7 @@ internal class FakeRiskContext : IRiskContext {
         this.userId = userId
     }
 
-    override fun createEvent(eventType: String, path: String?, createdAtUtc: Instant): Event =
+    override fun createEvent(eventType: String, path: String?, createdAtUtc: Long): Event =
         Fixtures.createEvent(
             eventType = eventType,
             path = path,

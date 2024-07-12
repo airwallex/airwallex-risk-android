@@ -1,18 +1,20 @@
 package com.airwallex.risk
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpResponseValidator
-import io.ktor.client.plugins.UserAgent
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
-import io.ktor.serialization.kotlinx.json.json
+import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.io.BufferedOutputStream
+import java.io.IOException
+import java.net.ConnectException
+import java.net.HttpRetryException
+import java.net.HttpURLConnection
+import java.net.NoRouteToHostException
+import java.net.SocketTimeoutException
+import java.net.URL
+import java.net.UnknownHostException
 
 @Serializable
 internal data class EventResponse(
@@ -20,36 +22,55 @@ internal data class EventResponse(
 )
 
 internal interface IApiService {
-    suspend fun postEvents(events: List<Event>): EventResponse
+    suspend fun postEvents(events: List<Event>)
 }
+
+internal class ServerException : IOException("Server-side error")
 
 internal class ApiService(
-    private val riskContext: IRiskContext,
-    private val client: HttpClient = HttpClient(CIO) {
-        expectSuccess = true
-
-        install(UserAgent) {
-            agent = riskContext.userAgent
-        }
-        install(ContentNegotiation) {
-            json()
-        }
-        HttpResponseValidator { }
-        defaultRequest {
-
-        }
-    }
+    private val riskContext: IRiskContext
 ) : IApiService {
+    companion object {
+        private const val serverErrorCode = 500
+    }
 
-    override suspend fun postEvents(events: List<Event>): EventResponse {
+    override suspend fun postEvents(events: List<Event>) {
         val url = riskContext.environment.host + riskContext.sessionId.toString()
+        withContext(Dispatchers.IO) {
+            val connection =
+                runCatching { URL(url).openConnection() as HttpURLConnection }.getOrElse {
+                    Log.d(Constants.logTag, "HttpURLConnection cannot be opened: ${it.message}")
+                    return@withContext
+                }
 
-        return client.post(url) {
-            contentType(ContentType.Application.Json)
-            setBody(events)
-        }.body()
+            try {
+                val body = Json.encodeToString(events).toByteArray()
+
+                connection.apply {
+                    requestMethod = "POST"
+                    doOutput = true
+                    setFixedLengthStreamingMode(body.size)
+                    setRequestProperty("Content-Type", "application/json")
+                }
+
+                val outputStream = BufferedOutputStream(connection.outputStream)
+                outputStream.write(body)
+                outputStream.flush()
+
+                if (connection.responseCode >= serverErrorCode) {
+                    throw ServerException()
+                }
+            } catch (e: IOException) {
+                when (e) {
+                    is ConnectException, is UnknownHostException, is HttpRetryException,
+                    is NoRouteToHostException, is SocketTimeoutException, is ServerException -> {
+                        Log.d(Constants.logTag, "HttpURLConnection output error: ${e.message}")
+                        throw e
+                    }
+                }
+            } finally {
+                connection.disconnect()
+            }
+        }
     }
 }
-
-
-

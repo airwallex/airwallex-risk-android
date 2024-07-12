@@ -8,11 +8,11 @@ apply from: "$rootProject.projectDir/jacoco.gradle"
 
 android {
     namespace 'com.airwallex.risk'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
-        minSdk 26
-        targetSdk 33
+        minSdk 21
+        targetSdkVersion 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -36,28 +36,22 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
-    implementation 'androidx.lifecycle:lifecycle-process:2.6.1'
-    implementation 'androidx.lifecycle:lifecycle-common:2.6.1'
-    implementation 'androidx.core:core-ktx:1.10.1'
-
-    def ktorVersion = "2.3.2"
-    implementation "io.ktor:ktor-client-android:$ktorVersion"
-    implementation "io.ktor:ktor-client-cio:$ktorVersion"
-    implementation "io.ktor:ktor-client-content-negotiation:$ktorVersion"
-    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
+    implementation 'androidx.lifecycle:lifecycle-process:2.8.3'
+    implementation 'androidx.lifecycle:lifecycle-common:2.8.3'
+    implementation 'androidx.core:core-ktx:1.13.1'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'io.mockk:mockk:1.13.3'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
-    testImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.6.1'
-    testImplementation 'org.jetbrains.kotlin:kotlin-test:1.7.20'
+    testImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.8.3'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test:1.8.0'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }
 
 nexusPublishing {

@@ -32,7 +32,7 @@ class EventTest {
             dataCollector = dataCollector,
             eventType = eventType,
             path = path,
-            createdAtUtc = Instant.now()
+            createdAtUtc = 10
         )
 
         assertEquals(event.accountId, riskContext.accountId)

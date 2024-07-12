@@ -26,7 +26,12 @@ internal interface IDataCollector {
 
 internal class DataCollector(
     applicationContext: Context,
-    private val systemLocale: Locale = Resources.getSystem().configuration.locales[0],
+    private val systemLocale: Locale = if (BuildHelper.isVersionAtLeastN()) {
+        Resources.getSystem().configuration.locales[0]
+    } else {
+        @Suppress("DEPRECATION")
+        Resources.getSystem().configuration.locale
+    },
     private val appLocale: Locale = Locale.getDefault()
 ) : IDataCollector {
     // region Private

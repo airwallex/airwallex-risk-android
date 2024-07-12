@@ -7,7 +7,9 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.BufferedOutputStream
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStreamReader
 import java.net.ConnectException
 import java.net.HttpRetryException
 import java.net.HttpURLConnection
@@ -15,11 +17,6 @@ import java.net.NoRouteToHostException
 import java.net.SocketTimeoutException
 import java.net.URL
 import java.net.UnknownHostException
-
-@Serializable
-internal data class EventResponse(
-    val message: String
-)
 
 internal interface IApiService {
     suspend fun postEvents(events: List<Event>)
@@ -43,9 +40,13 @@ internal class ApiService(
                     return@withContext
                 }
 
-            try {
-                val body = Json.encodeToString(events).toByteArray()
+            val body =
+                runCatching { Json.encodeToString(events).toByteArray() }.getOrElse {
+                    Log.d(Constants.logTag, "Json encoding error: ${it.message}")
+                    return@withContext
+                }
 
+            try {
                 connection.apply {
                     requestMethod = "POST"
                     doOutput = true
@@ -57,14 +58,20 @@ internal class ApiService(
                 outputStream.write(body)
                 outputStream.flush()
 
+                val inputStream = connection.inputStream
+                val reader = BufferedReader(InputStreamReader(inputStream))
+                val response = StringBuilder()
+                reader.forEachLine { response.append(it) }
+                Log.d(Constants.logTag, "Response body: $response")
+
                 if (connection.responseCode >= serverErrorCode) {
                     throw ServerException()
                 }
             } catch (e: IOException) {
+                Log.d(Constants.logTag, "HttpURLConnection output error: ${e.message}")
                 when (e) {
                     is ConnectException, is UnknownHostException, is HttpRetryException,
                     is NoRouteToHostException, is SocketTimeoutException, is ServerException -> {
-                        Log.d(Constants.logTag, "HttpURLConnection output error: ${e.message}")
                         throw e
                     }
                 }

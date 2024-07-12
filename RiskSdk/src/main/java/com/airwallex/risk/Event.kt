@@ -1,7 +1,6 @@
 package com.airwallex.risk
 
 import kotlinx.serialization.Serializable
-import java.time.Instant
 import java.util.UUID
 
 @Serializable

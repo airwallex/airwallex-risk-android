@@ -22,7 +22,7 @@ internal interface IRiskContext {
     fun createEvent(
         eventType: String,
         path: String? = null,
-        createdAtUtc: Instant = Instant.now()
+        createdAtUtc: Long = System.currentTimeMillis()
     ): Event
 }
 
@@ -72,7 +72,7 @@ internal class RiskContext(
     override fun createEvent(
         eventType: String,
         path: String?,
-        createdAtUtc: Instant
+        createdAtUtc: Long
     ): Event =
         Event(
             riskContext = this,

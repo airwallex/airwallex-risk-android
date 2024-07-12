@@ -14,4 +14,7 @@ internal object BuildHelper {
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
     fun isVersionAtLeastTiramisu() = sdkVersion >= Build.VERSION_CODES.TIRAMISU
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
+    fun isVersionAtLeastN() = sdkVersion >= Build.VERSION_CODES.N
 }

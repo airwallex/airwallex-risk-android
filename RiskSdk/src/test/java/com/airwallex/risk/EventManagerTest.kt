@@ -6,7 +6,9 @@ import com.airwallex.risk.helpers.FakeAutomaticEventProvider
 import com.airwallex.risk.helpers.Fixtures
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -36,7 +38,7 @@ class EventManagerTest {
         val automaticEventProvider = FakeAutomaticEventProvider()
         val lifecycleOwner = TestLifecycleOwner()
 
-        coEvery { apiService.postEvents(any()) } returns EventResponse(message = "message")
+        coEvery { apiService.postEvents(any()) } just runs
 
         val eventManager = EventManager(
             repository = repository,

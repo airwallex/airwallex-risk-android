@@ -13,7 +13,7 @@ internal object Fixtures {
     fun createEvent(
         eventType: String,
         path: String? = null,
-        createdAtUtc: Instant = Instant.now(),
+        createdAtUtc: Long = System.currentTimeMillis(),
         accountId: String? = "account id",
         userId: String? = "user id",
         deviceId: UUID = UUID.randomUUID(),
@@ -52,7 +52,7 @@ internal object Fixtures {
             screen = Screen(
                 path = path
             ),
-            createdAtUtc = createdAtUtc.toEpochMilli()
+            createdAtUtc = createdAtUtc
         )
     )
 }

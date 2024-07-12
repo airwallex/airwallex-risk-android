@@ -9,7 +9,6 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import org.junit.Before
 import org.junit.Test
-import java.time.Instant
 import kotlin.test.assertEquals
 
 class EventTest {

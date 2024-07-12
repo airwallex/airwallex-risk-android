@@ -6,7 +6,6 @@ import com.airwallex.risk.Event
 import com.airwallex.risk.EventDetails
 import com.airwallex.risk.Screen
 import com.airwallex.risk.Tenant
-import java.time.Instant
 import java.util.UUID
 
 internal object Fixtures {

@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        airwallexSdkVersion = '1.0.5'
+        airwallexSdkVersion = '1.0.6'
         detektVersion = '1.17.1'
         jacocoVersion = '0.8.8'
 

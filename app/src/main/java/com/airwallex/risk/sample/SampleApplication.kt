@@ -14,10 +14,15 @@ class SampleApplication : Application() {
         AirwallexRisk.start(
             applicationContext = applicationContext,
             accountId = accountId,
-            configuration = RiskConfiguration(isProduction = !BuildConfig.DEBUG)
+            configuration = RiskConfiguration(
+                isProduction = !BuildConfig.DEBUG,
+                bufferTimeMillis = 5_000L
+            )
         )
 
         // Ensure any network requests sent to airwallex.com attach the Airwallex Risk header
         val header = AirwallexRisk.header
+        // Get Airwallex session ID if needed
+        val sessionId = AirwallexRisk.sessionId
     }
 }

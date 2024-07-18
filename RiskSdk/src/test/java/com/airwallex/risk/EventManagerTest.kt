@@ -44,6 +44,7 @@ class EventManagerTest {
             repository = repository,
             apiService = apiService,
             automaticEventProvider = automaticEventProvider,
+            bufferTimeMillis = 20_000L,
             lifecycleOwner = lifecycleOwner,
             repeatCount = 1,
             backgroundDispatcher = dispatcher
@@ -74,6 +75,7 @@ class EventManagerTest {
             repository = repository,
             apiService = apiService,
             automaticEventProvider = automaticEventProvider,
+            bufferTimeMillis = 20_000L,
             lifecycleOwner = lifecycleOwner,
             repeatCount = 1,
             backgroundDispatcher = dispatcher

@@ -2,6 +2,7 @@ package com.airwallex.risk
 
 import android.content.Context
 import android.util.Log
+import java.util.UUID
 
 class AirwallexRisk private constructor() {
 
@@ -22,6 +23,12 @@ class AirwallexRisk private constructor() {
                 }
                 return shared?.header
             }
+
+        /**
+         * Airwallex session ID. Unique per app run.
+         */
+        val sessionId: UUID?
+            get() = shared?.sessionId
 
         /**
          * Starts the shared `AirwallexRisk` SDK instance.
@@ -67,7 +74,8 @@ class AirwallexRisk private constructor() {
                     automaticEventProvider = AutomaticEventProvider(
                         repository = eventRepository,
                         riskContext = riskContext
-                    )
+                    ),
+                    bufferTimeMillis = configuration.bufferTimeMillis
                 )
             )
             this.shared = shared

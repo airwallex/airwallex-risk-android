@@ -1,6 +1,7 @@
 package com.airwallex.risk
 
 import android.util.Log
+import java.util.UUID
 
 internal class AirwallexRiskInternal internal constructor(
     private val riskContext: IRiskContext,
@@ -10,6 +11,8 @@ internal class AirwallexRiskInternal internal constructor(
         field = Constants.headerKey,
         value = riskContext.deviceId.toString()
     )
+
+    val sessionId: UUID = riskContext.sessionId
 
     fun start() {
         Log.d(Constants.logTag, riskContext.description())

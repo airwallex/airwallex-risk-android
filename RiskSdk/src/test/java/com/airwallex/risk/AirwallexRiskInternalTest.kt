@@ -25,6 +25,7 @@ class AirwallexRiskInternalTest {
     fun `test start`() {
         val riskContext: RiskContext = mockk()
         every { riskContext.deviceId } returns UUID.randomUUID()
+        every { riskContext.sessionId } returns UUID.randomUUID()
         every { riskContext.description() } returns "description"
         val eventManager: EventManager = mockk()
         every { eventManager.start() } returns mockk()
@@ -42,6 +43,7 @@ class AirwallexRiskInternalTest {
     fun `test set user id`() {
         val riskContext: RiskContext = mockk()
         every { riskContext.deviceId } returns UUID.randomUUID()
+        every { riskContext.sessionId } returns UUID.randomUUID()
         every { riskContext.description() } returns "description"
         every { riskContext.updateUserId(any()) } returns mockk()
 
@@ -61,6 +63,7 @@ class AirwallexRiskInternalTest {
     fun `test set account id`() {
         val riskContext: RiskContext = mockk()
         every { riskContext.deviceId } returns UUID.randomUUID()
+        every { riskContext.sessionId } returns UUID.randomUUID()
         every { riskContext.description() } returns "description"
         every { riskContext.updateAccountId(any()) } returns mockk()
 
@@ -80,6 +83,7 @@ class AirwallexRiskInternalTest {
     fun `test log`() {
         val riskContext: RiskContext = mockk()
         every { riskContext.deviceId } returns UUID.randomUUID()
+        every { riskContext.sessionId } returns UUID.randomUUID()
         every { riskContext.description() } returns "description"
         every { riskContext.updateAccountId(any()) } returns mockk()
         every { riskContext.createEvent(any(), any(), any()) } returns mockk()
@@ -102,6 +106,7 @@ class AirwallexRiskInternalTest {
         val deviceId = UUID.randomUUID()
         val riskContext: RiskContext = mockk()
         every { riskContext.deviceId } returns deviceId
+        every { riskContext.sessionId } returns UUID.randomUUID()
 
         val eventManager: EventManager = mockk()
 
@@ -112,5 +117,22 @@ class AirwallexRiskInternalTest {
 
         assertEquals(shared.header.field, Constants.headerKey)
         assertEquals(shared.header.value, deviceId.toString())
+    }
+
+    @Test
+    fun `test session id`() {
+        val sessionId = UUID.randomUUID()
+        val riskContext: RiskContext = mockk()
+        every { riskContext.deviceId } returns UUID.randomUUID()
+        every { riskContext.sessionId } returns sessionId
+
+        val eventManager: EventManager = mockk()
+
+        val shared = AirwallexRiskInternal(
+            riskContext = riskContext,
+            eventManager = eventManager
+        )
+
+        assertEquals(shared.sessionId, sessionId)
     }
 }

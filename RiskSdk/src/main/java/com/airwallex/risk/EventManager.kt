@@ -15,6 +15,7 @@ internal class EventManager(
     private val repository: EventRepository,
     private val apiService: ApiService,
     private val automaticEventProvider: IAutomaticEventProvider,
+    private val bufferTimeMillis: Long,
     private val lifecycleOwner: LifecycleOwner = ProcessLifecycleOwner.get(),
     private val repeatCount: Int = Int.MAX_VALUE,
     backgroundDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -53,8 +54,8 @@ internal class EventManager(
             repeat(repeatCount) {
                 if (isActive) {
                     postEvents()
-                    // delay for 20 seconds
-                    delay(20_000L)
+                    // delay for a few seconds
+                    delay(bufferTimeMillis)
                 }
             }
         }

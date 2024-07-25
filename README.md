@@ -29,7 +29,7 @@ The Airwallex Risk Android SDK requires Android Studio Flamingo or later with Ja
 In your app's `build.gradle`, add:
 
 ```
-implementation "io.github.airwallex:RiskSdk:1.0.6"
+implementation "io.github.airwallex:RiskSdk:1.0.7"
 ```
 
 ## Usage

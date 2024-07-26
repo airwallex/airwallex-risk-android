@@ -15,8 +15,7 @@ class SampleApplication : Application() {
             applicationContext = applicationContext,
             accountId = accountId,
             configuration = RiskConfiguration(
-                isProduction = !BuildConfig.DEBUG,
-                bufferTimeMillis = 5_000L
+                isProduction = !BuildConfig.DEBUG
             )
         )
 

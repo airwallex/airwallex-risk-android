@@ -9,7 +9,7 @@ class AirwallexRisk private constructor() {
     companion object {
         private const val sharedPreferencesFilename: String = Constants.sharedPreferencesFilename
 
-        internal var shared: AirwallexRiskInternal? = null
+        private var shared: AirwallexRiskInternal? = null
 
         /**
          * Airwallex risk request header.

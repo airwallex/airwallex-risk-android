@@ -66,6 +66,9 @@ internal class ApiService(
                 if (connection.responseCode >= serverErrorCode) {
                     throw ServerException()
                 }
+                if (events.any { event -> event.event.type == Constants.installationEventName }) {
+                    riskContext.hasSentInstallationEvent = true
+                }
             } catch (e: IOException) {
                 Log.d(Constants.logTag, "HttpURLConnection output error: ${e.message}")
                 when (e) {

@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class Tenant(val value: String) {
-    @SerialName("Mobile App")
-    AIRWALLEX_MOBILE("Mobile App"),
+    @SerialName("Mobile app")
+    AIRWALLEX_MOBILE("Mobile app"),
     @SerialName("Scale")
     SCALE("Scale"),
     @SerialName("PA checkout")

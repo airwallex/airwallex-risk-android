@@ -7,7 +7,7 @@ class TenantTest {
 
     @Test
     fun `test tenants`() {
-        assertEquals(Tenant.AIRWALLEX_MOBILE.value, "Mobile App")
+        assertEquals(Tenant.AIRWALLEX_MOBILE.value, "Mobile app")
         assertEquals(Tenant.SCALE.value, "Scale")
         assertEquals(Tenant.PA.value, "PA checkout")
     }

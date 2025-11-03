@@ -111,22 +111,20 @@ AirwallexRisk.setUserId(userId = null) // Set to null on sign out
 
 **For Connected Accounts scenario:**
 
-**Required:** When a platform user (connected account) signs in or out, you must set both the account ID and user ID to the connected account's Airwallex account ID:
+**Required:** When a platform user (connected account) signs in or out, set only the account ID:
 
 ```kotlin
 import com.airwallex.risk.AirwallexRisk
 
 // On platform user sign in
-val connectedAccountId = "CONNECTED_ACCOUNT_ID" // The user's Airwallex connected account ID
+val connectedAccountId = "CONNECTED_ACCOUNT_ID" // The connected account's Airwallex account ID
 AirwallexRisk.setAccountId(accountId = connectedAccountId)
-AirwallexRisk.setUserId(userId = connectedAccountId)
 
 // On platform user sign out
 AirwallexRisk.setAccountId(accountId = null)
-AirwallexRisk.setUserId(userId = null)
 ```
 
-:warning: **Important**: For Connected Accounts, both `accountId` and `userId` should be set to the connected account's Airwallex account ID (not the platform's account ID, and not the platform's internal user ID).
+:warning: **Important**: For Connected Accounts, do **NOT** set `userId`. Only set `accountId` to the connected account's Airwallex account ID (not the platform's account ID).
   
 #### Events
 

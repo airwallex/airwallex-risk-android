@@ -3,7 +3,7 @@
 ![Bitrise](https://app.bitrise.io/app/311ac459dba8618d/status.svg?token=PdOUUoDjBwL_Z5NEKGiMmQ&branch=main)
 ![Platforms](https://img.shields.io/badge/platforms-Android-333333.svg)
 
-The Airwallex Risk SDK provides device intelligence and fraud detection for Airwallex customer apps.
+The Airwallex Risk SDK provides device intelligence and fraud detection capabilities for merchant and platform apps that integrate with Airwallex services.
 
 ## Use Cases
 

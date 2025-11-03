@@ -59,7 +59,7 @@ class SampleApplication : Application() {
 
         AirwallexRisk.start(
             applicationContext = applicationContext,
-            accountId = "YOUR_MERCHANT_ACCOUNT_ID", // Required: Your merchant's Airwallex account ID
+            accountId = "YOUR_MERCHANT_ACCOUNT_ID", // Required: The PA merchant's account ID at Airwallex
             configuration = RiskConfiguration(isProduction = !BuildConfig.DEBUG)
         )
     }
@@ -88,8 +88,8 @@ class SampleApplication : Application() {
 ```
 
 **Notes**:
-- **Payment Acceptance**: `accountId` is **required** and should be your merchant's Airwallex account ID.
-- **Scaled Platform**: `accountId` is **optional** at startup. Set the connected account's Airwallex account ID later using `AirwallexRisk.setAccountId()` when available.
+- **Payment Acceptance**: `accountId` is **required** and should be the PA merchant's account ID at Airwallex.
+- **Scaled Platform**: `accountId` is **optional** at startup. Set the connected account's account ID at Airwallex later using `AirwallexRisk.setAccountId()` when available.
 - The optional `RiskConfiguration` may also be used if needed. For test/debug builds you can set `isProduction = false`.
 
 #### Update user

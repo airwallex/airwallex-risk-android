@@ -130,14 +130,14 @@ For guest checkout flows where users don't register, you can skip setting the us
 import com.airwallex.risk.AirwallexRisk
 
 // On platform user sign in
-val connectedAccountId = "CONNECTED_ACCOUNT_ID" // The connected account's Airwallex account ID
+val connectedAccountId = "CONNECTED_ACCOUNT_ID" // The connected account's Airwallex account ID from Create a connected account API
 AirwallexRisk.setAccountId(accountId = connectedAccountId)
 
 // On platform user sign out
 AirwallexRisk.setAccountId(accountId = null)
 ```
 
-:warning: **Important**: For Connected Accounts, do **NOT** set `userId`. Only set `accountId` to the connected account's Airwallex account ID (not the platform's account ID).
+:warning: **Important**: For Connected Accounts, do **NOT** set `userId`. Only set `accountId` to the connected account's Airwallex account ID (not the platform's account ID). The account ID is the `id` returned from the [Create a connected account API](https://www.airwallex.com/docs/api#/Scale/Accounts/_api_v1_accounts_create/post).
   
 #### Events
 

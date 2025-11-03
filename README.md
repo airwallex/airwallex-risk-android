@@ -98,16 +98,29 @@ The SDK needs to be updated when users sign in or out.
 
 **For Payment Acceptance (PA) scenario:**
 
-When a user signs in to the merchant app, it's recommended to set their user ID (especially if your business requires user registration before payment):
+There are two cases for setting user ID:
+
+**Case 1: Registered user checkout (Recommended)**
+
+When using [registered user checkout](https://www.airwallex.com/docs/payments__create-a-customer), set the user ID to the Airwallex Customer ID after creating the customer:
 
 ```kotlin
 import com.airwallex.risk.AirwallexRisk
 
-AirwallexRisk.setUserId(userId = "USER_ID") // Recommended: Set on sign in
+// After creating a customer at Airwallex via Create a Customer API
+AirwallexRisk.setUserId(userId = "AIRWALLEX_CUSTOMER_ID") // Set to Airwallex Customer ID
 AirwallexRisk.setUserId(userId = null) // Set to null on sign out
 ```
 
-:warning: **Important**: The user ID should be the merchant's internal user identifier for their customer, not an Airwallex user ID.
+:warning: **Important**: The user ID should be the **Airwallex Customer ID** returned from the [Create a Customer API](https://www.airwallex.com/docs/payments__create-a-customer).
+
+**Case 2: Guest checkout**
+
+For guest checkout flows where users don't register, you can skip setting the user ID:
+
+```kotlin
+// No need to call AirwallexRisk.setUserId() for guest checkout
+```
 
 **For Connected Accounts scenario:**
 

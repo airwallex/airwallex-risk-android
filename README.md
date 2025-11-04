@@ -3,7 +3,14 @@
 ![Bitrise](https://app.bitrise.io/app/311ac459dba8618d/status.svg?token=PdOUUoDjBwL_Z5NEKGiMmQ&branch=main)
 ![Platforms](https://img.shields.io/badge/platforms-Android-333333.svg)
 
-The Airwallex Risk SDK is required for Airwallex Scale customer apps.
+The Airwallex Risk SDK provides device intelligence and fraud detection capabilities for merchant and platform apps that integrate with Airwallex services.
+
+## Use Cases
+
+This SDK supports two primary scenarios:
+
+1. **Payment Acceptance (PA)**: For merchant mobile apps accepting payments
+2. **Connected Accounts**: For platforms that programmatically create connected accounts for businesses and individuals, and enable them with financial capabilities
 
 ## Table of contents
 
@@ -36,44 +43,113 @@ implementation "io.github.airwallex:RiskSdk:1.0.10"
 
 #### Quick start
 
-The SDK must be started as early as possible in your application lifecycle. We recommend calling the `start` method in your `Application` subclass's `onCreate`:
+The SDK must be started as early as possible in your application lifecycle. We recommend calling the `start` method in your `Application` subclass's `onCreate`.
+
+**For Payment Acceptance (PA) scenario:**
 
 ```kotlin
 import android.app.Application
 import com.airwallex.risk.AirwallexRisk
 import com.airwallex.risk.RiskConfiguration
+import com.airwallex.risk.Tenant
 
 class SampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
-        val accountId = null // "YOUR-ACCOUNT-ID-GOES-HERE"
-
         AirwallexRisk.start(
             applicationContext = applicationContext,
-            accountId = accountId,
-            configuration = RiskConfiguration(isProduction = !BuildConfig.DEBUG)
+            accountId = "YOUR_MERCHANT_ACCOUNT_ID", // Required: The PA merchant's account ID at Airwallex
+            configuration = RiskConfiguration(
+                isProduction = !BuildConfig.DEBUG,
+                tenant = Tenant.PA
+            )
         )
     }
 }
 ```
 
-**Notes**: 
-- `accountId` is required in all Airwallex Scale customer apps. This will be your Airwallex account ID.
-- the optional `RiskConfiguration` may also be used if needed. For test/debug builds you can set `isProduction = false`.
+**For Connected Accounts scenario:**
+
+```kotlin
+import android.app.Application
+import com.airwallex.risk.AirwallexRisk
+import com.airwallex.risk.RiskConfiguration
+import com.airwallex.risk.Tenant
+
+class SampleApplication : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        AirwallexRisk.start(
+            applicationContext = applicationContext,
+            accountId = null, // Optional: Set connected account ID later via AirwallexRisk.setAccountId()
+            configuration = RiskConfiguration(
+                isProduction = !BuildConfig.DEBUG,
+                tenant = Tenant.SCALE
+            )
+        )
+    }
+}
+```
+
+**Notes**:
+- **Payment Acceptance**:
+  - `accountId` is **required** and should be the PA merchant's account ID at Airwallex
+  - `tenant` must be set to `Tenant.PA`
+- **Connected Accounts**:
+  - `accountId` is **optional** at startup (set it later via `AirwallexRisk.setAccountId()` once the platform user signs in and the connected account is available)
+  - `tenant` must be set to `Tenant.SCALE`
+- The optional `RiskConfiguration` may also be used if needed. For test/debug builds you can set `isProduction = false`.
 
 #### Update user
 
-After the app user signs in to their Airwallex account, the app must send the users ID through to the SDK as follows. This will be persisted in the SDK until the next time this method is called. Set to `null` on sign out.
+The SDK needs to be updated when users sign in or out.
 
-:warning: **Important**: The user ID here is the signed in user's individual Airwallex account ID, not your own system user ID.
+**For Payment Acceptance (PA) scenario:**
+
+There are two cases for setting user ID:
+
+**Case 1: Registered user checkout (Recommended)**
+
+When using [registered user checkout](https://www.airwallex.com/docs/payments__create-a-customer), set the user ID to the Airwallex Customer ID after creating the customer:
 
 ```kotlin
 import com.airwallex.risk.AirwallexRisk
 
-AirwallexRisk.setUserId(userID = "USER_ID")
+// After creating a customer at Airwallex via Create a Customer API
+AirwallexRisk.setUserId(userId = "AIRWALLEX_CUSTOMER_ID") // Set to Airwallex Customer ID
+AirwallexRisk.setUserId(userId = null) // Set to null on sign out
 ```
+
+:warning: **Important**: The user ID should be the **Airwallex Customer ID** returned from the [Create a Customer API](https://www.airwallex.com/docs/payments__create-a-customer).
+
+**Case 2: Guest checkout**
+
+For guest checkout flows where users don't register, you can skip setting the user ID:
+
+```kotlin
+// No need to call AirwallexRisk.setUserId() for guest checkout
+```
+
+**For Connected Accounts scenario:**
+
+**Required:** When a platform user (connected account) signs in or out, set only the account ID:
+
+```kotlin
+import com.airwallex.risk.AirwallexRisk
+
+// On platform user sign in
+val connectedAccountId = "CONNECTED_ACCOUNT_ID" // The connected account's Airwallex account ID from Create a connected account API
+AirwallexRisk.setAccountId(accountId = connectedAccountId)
+
+// On platform user sign out
+AirwallexRisk.setAccountId(accountId = null)
+```
+
+:warning: **Important**: For Connected Accounts, do **NOT** set `userId`. Only set `accountId` to the connected account's Airwallex account ID (not the platform's account ID). The account ID is the `id` returned from the [Create a connected account API](https://www.airwallex.com/docs/api#/Scale/Accounts/_api_v1_accounts_create/post).
   
 #### Events
 

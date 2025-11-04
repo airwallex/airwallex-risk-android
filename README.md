@@ -51,6 +51,7 @@ The SDK must be started as early as possible in your application lifecycle. We r
 import android.app.Application
 import com.airwallex.risk.AirwallexRisk
 import com.airwallex.risk.RiskConfiguration
+import com.airwallex.risk.Tenant
 
 class SampleApplication : Application() {
 
@@ -60,7 +61,10 @@ class SampleApplication : Application() {
         AirwallexRisk.start(
             applicationContext = applicationContext,
             accountId = "YOUR_MERCHANT_ACCOUNT_ID", // Required: The PA merchant's account ID at Airwallex
-            configuration = RiskConfiguration(isProduction = !BuildConfig.DEBUG)
+            configuration = RiskConfiguration(
+                isProduction = !BuildConfig.DEBUG,
+                tenant = Tenant.PA
+            )
         )
     }
 }
@@ -72,6 +76,7 @@ class SampleApplication : Application() {
 import android.app.Application
 import com.airwallex.risk.AirwallexRisk
 import com.airwallex.risk.RiskConfiguration
+import com.airwallex.risk.Tenant
 
 class SampleApplication : Application() {
 
@@ -81,15 +86,22 @@ class SampleApplication : Application() {
         AirwallexRisk.start(
             applicationContext = applicationContext,
             accountId = null, // Optional: Set connected account ID later via AirwallexRisk.setAccountId()
-            configuration = RiskConfiguration(isProduction = !BuildConfig.DEBUG)
+            configuration = RiskConfiguration(
+                isProduction = !BuildConfig.DEBUG,
+                tenant = Tenant.SCALE
+            )
         )
     }
 }
 ```
 
 **Notes**:
-- **Payment Acceptance**: `accountId` is **required** and should be the PA merchant's account ID at Airwallex.
-- **Connected Accounts**: `accountId` is **optional** at startup. Set the connected account's account ID at Airwallex later using `AirwallexRisk.setAccountId()` when available.
+- **Payment Acceptance**:
+  - `accountId` is **required** and should be the PA merchant's account ID at Airwallex
+  - `tenant` must be set to `Tenant.PA`
+- **Connected Accounts**:
+  - `accountId` is **optional** at startup (set it later via `AirwallexRisk.setAccountId()` once the platform user signs in and the connected account is available)
+  - `tenant` must be set to `Tenant.SCALE`
 - The optional `RiskConfiguration` may also be used if needed. For test/debug builds you can set `isProduction = false`.
 
 #### Update user

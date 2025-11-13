@@ -189,16 +189,7 @@ To ensure consistency across integrations, use these standardized event names fo
 
 **Example Implementation:**
 ```kotlin
-// Transaction events
-AirwallexRisk.log(event = "transaction_initiated", screen = "payment_form")
-
-// Card security events
-AirwallexRisk.log(event = "card_pin_viewed", screen = "card_details")
-AirwallexRisk.log(event = "card_cvc_viewed", screen = "card_details")
-
-// Profile events
-AirwallexRisk.log(event = "profile_phone_updated", screen = "profile_settings")
-AirwallexRisk.log(event = "profile_email_updated", screen = "profile_settings")
+AirwallexRisk.log(event = "transaction_initiated", screen = "YOUR_APP_SCREEN_NAME")
 ```
 
 #### Request header

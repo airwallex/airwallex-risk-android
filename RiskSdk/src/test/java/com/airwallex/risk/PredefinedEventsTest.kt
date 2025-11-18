@@ -1,7 +1,6 @@
 package com.airwallex.risk
 
 import android.util.Log
-import com.airwallex.risk.helpers.FakeRiskContext
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk

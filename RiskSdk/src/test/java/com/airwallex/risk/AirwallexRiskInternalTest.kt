@@ -46,8 +46,10 @@ class AirwallexRiskInternalTest {
         every { riskContext.sessionId } returns UUID.randomUUID()
         every { riskContext.description() } returns "description"
         every { riskContext.updateUserId(any()) } returns mockk()
+        every { riskContext.createEvent(any(), any(), any()) } returns mockk()
 
         val eventManager: EventManager = mockk()
+        every { eventManager.queue(any()) } returns Unit
 
         val shared = AirwallexRiskInternal(
             riskContext = riskContext,
@@ -57,6 +59,31 @@ class AirwallexRiskInternalTest {
         val userId = "abcde"
         shared.setUserId(userId)
         verify { riskContext.updateUserId(userId) }
+        verify { riskContext.createEvent(Constants.userLoginEventName, null, any()) }
+        verify { eventManager.queue(any()) }
+    }
+
+    @Test
+    fun `test set user id to null triggers logout event`() {
+        val riskContext: RiskContext = mockk()
+        every { riskContext.deviceId } returns UUID.randomUUID()
+        every { riskContext.sessionId } returns UUID.randomUUID()
+        every { riskContext.description() } returns "description"
+        every { riskContext.updateUserId(any()) } returns mockk()
+        every { riskContext.createEvent(any(), any(), any()) } returns mockk()
+
+        val eventManager: EventManager = mockk()
+        every { eventManager.queue(any()) } returns Unit
+
+        val shared = AirwallexRiskInternal(
+            riskContext = riskContext,
+            eventManager = eventManager
+        )
+
+        shared.setUserId(null)
+        verify { riskContext.updateUserId(null) }
+        verify { riskContext.createEvent(Constants.userLogoutEventName, null, any()) }
+        verify { eventManager.queue(any()) }
     }
 
     @Test

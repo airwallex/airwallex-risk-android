@@ -153,20 +153,33 @@ AirwallexRisk.setAccountId(accountId = null)
   
 #### Events
 
-Some app events must be logged to the SDK. These events include:
-- _User logs in:_ When a user logs in, send the event "login". Make sure you **set the user ID** (above) before sending this event.
-- _Create a payout transaction:_ When a user submits a payment transaction, send the event "payout".
-
 Use the following snippet to send event name and current screen name.
 
 ```kotlin
 import com.airwallex.risk.AirwallexRisk
 
+// Log a custom event
 AirwallexRisk.log(
   event = "EVENT_NAME",
   screen = "SCREEN_NAME"
 )
+
+// Log a predefined event
+AirwallexRisk.log(
+  event = AirwallexRisk.Events.TRANSACTION_INITIATED,
+  screen = "checkout_screen"
+)
+
+// Available predefined events:
+// - AirwallexRisk.Events.TRANSACTION_INITIATED
+// - AirwallexRisk.Events.CARD_PIN_VIEWED
+// - AirwallexRisk.Events.CARD_CVC_VIEWED
+// - AirwallexRisk.Events.PROFILE_PHONE_UPDATED
+// - AirwallexRisk.Events.PROFILE_EMAIL_UPDATED
 ```
+
+> [!NOTE]
+> User login and logout events will be automatically logged when you call AirwallexRisk.setUserId()
 
 #### Request header
 

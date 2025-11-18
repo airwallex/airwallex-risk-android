@@ -125,5 +125,55 @@ class AirwallexRisk private constructor() {
             }
             shared.log(eventType = event, screen = screen)
         }
+
+        /**
+         * Adds a new event to the queue.
+         * This is a public method for client apps to log specific lifecycle events.
+         * @param event Predefined app event.
+         * @param screen Current app view. Optional.
+         */
+        fun log(event: Events, screen: String? = null) {
+            val shared = shared
+            if (shared == null) {
+                Log.d(Constants.logTag, Constants.logSdkNotStartedError)
+                return
+            }
+            shared.log(eventType = event.value, screen = screen)
+        }
+    }
+
+    /**
+     * Standardized event names used across integrations.
+     */
+    enum class Events(val value: String) {
+        /**
+         * User starts a new transaction flow
+         * Use when user begins any payment/transfer process, before entering details
+         */
+        TRANSACTION_INITIATED("transaction_initiated"),
+
+        /**
+         * User accessed/viewed card PIN
+         * Use when user successfully views their card PIN through app
+         */
+        CARD_PIN_VIEWED("card_pin_viewed"),
+
+        /**
+         * User accessed/viewed card CVC/CVV
+         * Use when user successfully views their card CVC/security code
+         */
+        CARD_CVC_VIEWED("card_cvc_viewed"),
+
+        /**
+         * User changed their phone number
+         * Use when phone number change is successfully saved
+         */
+        PROFILE_PHONE_UPDATED("profile_phone_updated"),
+
+        /**
+         * User changed their email address
+         * Use when email change is successfully saved
+         */
+        PROFILE_EMAIL_UPDATED("profile_email_updated")
     }
 }

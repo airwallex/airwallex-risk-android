@@ -9,4 +9,6 @@ internal object Constants {
 
     const val openEventName: String = "open"
     const val installationEventName: String = "installation"
+    const val userLoginEventName: String = "user_login"
+    const val userLogoutEventName: String = "user_logout"
 }

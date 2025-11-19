@@ -80,28 +80,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send payment"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold"
-            android:layout_marginBottom="@dimen/padding_small"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap Send to submit your payment."
-            android:layout_marginBottom="@dimen/padding_medium"/>
-
-        <Button
-            android:id="@+id/sendPaymentButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send"
-            android:paddingHorizontal="32dp"
-            android:layout_marginBottom="@dimen/padding_medium"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Predefined Events"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"

@@ -9,7 +9,6 @@ class MainActivity: FragmentActivity() {
 
     lateinit var binding: ActivityMainBinding
     private val authService = AuthService()
-    private val paymentManager = PaymentManager()
     private var isAuthenticated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +29,6 @@ class MainActivity: FragmentActivity() {
 
         binding.logoutButton.setOnClickListener {
             logout()
-        }
-
-        binding.sendPaymentButton.setOnClickListener {
-            submitPayment()
         }
 
         binding.transactionInitiatedButton.setOnClickListener {
@@ -70,10 +65,6 @@ class MainActivity: FragmentActivity() {
         authService.logout()
         isAuthenticated = false
         updateUI()
-    }
-
-    private fun submitPayment() {
-        paymentManager.submitPaymentRequest()
     }
 
     private fun logPredefinedEvent(event: com.airwallex.risk.AirwallexRisk.Events) {

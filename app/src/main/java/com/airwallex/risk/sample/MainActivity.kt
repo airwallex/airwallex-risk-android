@@ -35,6 +35,26 @@ class MainActivity: FragmentActivity() {
         binding.sendPaymentButton.setOnClickListener {
             submitPayment()
         }
+
+        binding.transactionInitiatedButton.setOnClickListener {
+            logPredefinedEvent(com.airwallex.risk.AirwallexRisk.Events.TRANSACTION_INITIATED)
+        }
+
+        binding.cardPinViewedButton.setOnClickListener {
+            logPredefinedEvent(com.airwallex.risk.AirwallexRisk.Events.CARD_PIN_VIEWED)
+        }
+
+        binding.cardCvcViewedButton.setOnClickListener {
+            logPredefinedEvent(com.airwallex.risk.AirwallexRisk.Events.CARD_CVC_VIEWED)
+        }
+
+        binding.profilePhoneUpdatedButton.setOnClickListener {
+            logPredefinedEvent(com.airwallex.risk.AirwallexRisk.Events.PROFILE_PHONE_UPDATED)
+        }
+
+        binding.profileEmailUpdatedButton.setOnClickListener {
+            logPredefinedEvent(com.airwallex.risk.AirwallexRisk.Events.PROFILE_EMAIL_UPDATED)
+        }
     }
 
     private fun login() {
@@ -54,6 +74,10 @@ class MainActivity: FragmentActivity() {
 
     private fun submitPayment() {
         paymentManager.submitPaymentRequest()
+    }
+
+    private fun logPredefinedEvent(event: com.airwallex.risk.AirwallexRisk.Events) {
+        com.airwallex.risk.AirwallexRisk.log(event = event, screen = "payment")
     }
 
     private fun updateUI() {

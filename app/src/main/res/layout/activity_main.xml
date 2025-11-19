@@ -97,14 +97,61 @@
             android:layout_height="wrap_content"
             android:text="Send"
             android:paddingHorizontal="32dp"
-            android:layout_marginBottom="@dimen/padding_xlarge"/>
+            android:layout_marginBottom="@dimen/padding_medium"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Predefined Events"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/transactionInitiatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction Initiated"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/cardPinViewedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card PIN Viewed"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/cardCvcViewedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card CVC Viewed"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/profilePhoneUpdatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile Phone Updated"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/profileEmailUpdatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile Email Updated"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_medium"/>
 
         <Button
             android:id="@+id/logoutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Log out"
-            style="@style/Widget.Material3.Button.TextButton"
             android:paddingHorizontal="32dp"/>
     </LinearLayout>
 

@@ -6,74 +6,131 @@
     android:layout_height="match_parent"
     android:padding="@dimen/padding_xlarge">
 
-    <TextView
-        android:id="@+id/textView"
+    <!-- Login Layout -->
+    <LinearLayout
+        android:id="@+id/loginLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/main_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:orientation="vertical"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/eventNameInputLayout"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_marginBottom="@dimen/padding_xlarge"
-        />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eventNameInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/event_name_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintBottom_toTopOf="@id/screenNameInputLayout"
-        android:layout_marginBottom="@dimen/padding_medium">
-        
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eventNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:digits="@string/digit_filter"
-            android:inputType="textFilter"
-            android:text="@string/event_name_default"
-            />
-        
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/screenNameInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/screen_name_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventNameInputLayout"
-        app:layout_constraintBottom_toTopOf="@id/button"
-        android:layout_marginBottom="@dimen/padding_medium">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/screenNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:digits="@string/digit_filter"
-            android:inputType="textFilter"
-            android:text="@string/screen_name_default"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/screenNameInputLayout"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/send_event_title"
-        />
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/padding_medium"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:layout_marginBottom="@dimen/padding_small">
+            
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test@airwallex.com"
+                android:enabled="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:layout_marginBottom="@dimen/padding_medium">
+            
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Password123"
+                android:inputType="textPassword"
+                android:enabled="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log in"
+            android:paddingHorizontal="32dp"/>
+    </LinearLayout>
+
+    <!-- Payment Layout -->
+    <LinearLayout
+        android:id="@+id/paymentLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Predefined Events"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/transactionInitiatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction Initiated"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/cardPinViewedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card PIN Viewed"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/cardCvcViewedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card CVC Viewed"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/profilePhoneUpdatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile Phone Updated"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_small"/>
+
+        <Button
+            android:id="@+id/profileEmailUpdatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile Email Updated"
+            android:paddingHorizontal="32dp"
+            android:layout_marginBottom="@dimen/padding_medium"/>
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log out"
+            android:paddingHorizontal="32dp"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

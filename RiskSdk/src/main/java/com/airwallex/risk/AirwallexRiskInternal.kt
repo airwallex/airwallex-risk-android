@@ -22,6 +22,13 @@ internal class AirwallexRiskInternal internal constructor(
 
     fun setUserId(userId: String?) {
         riskContext.updateUserId(userId = userId)
+        val eventType = if (userId == null) {
+            Constants.userLogoutEventName
+        } else {
+            Constants.userLoginEventName
+        }
+        val event = riskContext.createEvent(eventType = eventType)
+        eventManager.queue(event)
     }
 
     fun setAccountId(accountId: String?) {

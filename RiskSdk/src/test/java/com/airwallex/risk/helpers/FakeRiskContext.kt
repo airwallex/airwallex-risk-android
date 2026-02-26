@@ -6,16 +6,19 @@ import com.airwallex.risk.IRiskContext
 import com.airwallex.risk.Tenant
 import java.util.UUID
 
-internal class FakeRiskContext : IRiskContext {
+internal class FakeRiskContext(
+    override val tenant: Tenant = Tenant.SCALE,
+    initialAccountId: String? = null,
+    initialUserId: String? = null
+) : IRiskContext {
 
-    override var userId: String? = null
-    override var accountId: String? = null
+    override var userId: String? = initialUserId
+    override var accountId: String? = initialAccountId
     override var hasSentInstallationEvent: Boolean = false
     override val userAgent: String = "user agent"
     override val sessionId: UUID = UUID.randomUUID()
     override val deviceId: UUID = UUID.randomUUID()
     override val environment: Environment = Environment.STAGING
-    override val tenant: Tenant = Tenant.SCALE
 
     override fun description(): String = "description"
 

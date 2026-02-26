@@ -21,18 +21,41 @@ internal class AirwallexRiskInternal internal constructor(
     }
 
     fun setUserId(userId: String?) {
-        riskContext.updateUserId(userId = userId)
-        val eventType = if (userId == null) {
-            Constants.userLogoutEventName
-        } else {
-            Constants.userLoginEventName
+        val existingUserId = riskContext.userId
+        // If same value, do nothing
+        if (userId == existingUserId) return
+        // Send logout event before context update if there's an existing user
+        if (existingUserId != null) {
+            val logoutEvent = riskContext.createEvent(eventType = Constants.userLogoutEventName)
+            eventManager.queue(logoutEvent)
         }
-        val event = riskContext.createEvent(eventType = eventType)
-        eventManager.queue(event)
+        riskContext.updateUserId(userId = userId)
+        // Send login event after update if there's a new user
+        if (userId != null) {
+            val loginEvent = riskContext.createEvent(eventType = Constants.userLoginEventName)
+            eventManager.queue(loginEvent)
+        }
     }
 
     fun setAccountId(accountId: String?) {
+        if (riskContext.tenant != Tenant.SCALE) {
+            riskContext.updateAccountId(accountId = accountId)
+            return
+        }
+        val existingAccountId = riskContext.accountId
+        // If same value, do nothing
+        if (accountId == existingAccountId) return
+        // Send logout event before context update if there's an existing account
+        if (existingAccountId != null) {
+            val logoutEvent = riskContext.createEvent(eventType = Constants.accountLogoutEventName)
+            eventManager.queue(logoutEvent)
+        }
         riskContext.updateAccountId(accountId = accountId)
+        // Send login event after update if there's a new account
+        if (accountId != null) {
+            val loginEvent = riskContext.createEvent(eventType = Constants.accountLoginEventName)
+            eventManager.queue(loginEvent)
+        }
     }
 
     fun log(eventType: String, screen: String?) {

@@ -4,7 +4,7 @@ sonarqube {
 
     properties {
         property "sonar.log.level", "DEBUG"
-        property 'sonar.host.url', 'https://sonar-dev-cn.awx.onl'
+        property 'sonar.host.url', 'https://sonar.prod.awx.im'
         property 'sonar.projectName', "Airwallex Risk SDK Android"
         property 'sonar.projectKey', 'airwallex_airwallex-risk-android'
         property 'sonar.core.codeCoveragePlugin', 'jacoco'

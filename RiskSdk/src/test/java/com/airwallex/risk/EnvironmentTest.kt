@@ -10,5 +10,6 @@ class EnvironmentTest {
         assertEquals(Environment.PRODUCTION.host, "https://bws.airwallex.com/bws/v2/m/")
         assertEquals(Environment.DEMO.host, "https://bws-demo.airwallex.com/bws/v2/m/")
         assertEquals(Environment.STAGING.host, "https://bws-staging.airwallex.com/bws/v2/m/")
+        assertEquals(Environment.PREVIEW.host, "https://bws.sandbox.airwallex.com/bws/v2/m/")
     }
 }
